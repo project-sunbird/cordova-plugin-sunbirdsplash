@@ -45,7 +45,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sunbird.deeplinks.DeepLinkNavigation;
 import org.sunbird.locales.Locale;
 import org.sunbird.util.ImportExportUtil;
 
