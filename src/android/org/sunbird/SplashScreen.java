@@ -333,7 +333,6 @@ public class SplashScreen extends CordovaPlugin {
         LinearLayout splashContent = createParentContentView(context);
 
         createLogoImageView(context, splashDim, drawableId, logoUrl);
-        createImportStatusView(context);
         TextView appNameTextView = createAppNameView(context, appName);
 
         splashContent.addView(splashImageView);
