@@ -77,7 +77,6 @@ public class SplashScreen extends CordovaPlugin {
   private int orientation;
   private SharedPreferences sharedPreferences;
   private volatile boolean importingInProgress;
-  private DeepLinkNavigation mDeepLinkNavigation;
   private ArrayList<CallbackContext> mHandler = new ArrayList<>();
   private JSONObject mLastEvent;
   private String localeSelected;
