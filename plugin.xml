@@ -9,6 +9,7 @@
     <keywords></keywords>
 
     <dependency id="cordova-plugin-genie-sdk" url="https://github.com/project-sunbird/cordova-plugin-genie-sdk.git"/>
+    <dependency id="cordova-plugin-deeplinnks" url="https://github.com/ankur01oct/cordova-plugin-deeplinks.git"/>
 
     <framework src="build-extras.gradle" custom="true" type="gradleReference"/>
 
@@ -204,9 +205,6 @@
       </config-file>
 
       <source-file src="src/android/org/sunbird/SplashScreen.java" target-dir="src/org/sunbird/" />
-      <source-file src="src/android/org/sunbird/deeplinks/DeepLinkNavigation.java" target-dir="src/org/sunbird/deeplinks" />
-      <source-file src="src/android/org/sunbird/deeplinks/DeepLinkUtility.java" target-dir="src/org/sunbird/deeplinks" />
-      <source-file src="src/android/org/sunbird/ImportExportUtil.java" target-dir="src/org/sunbird/util" />
       <source-file src="src/android/org/sunbird/locales/Locale.java" target-dir="src/org/sunbird/locales" />
 
     </platform>
