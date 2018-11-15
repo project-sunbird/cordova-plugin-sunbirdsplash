@@ -9,7 +9,7 @@
     <keywords></keywords>
 
     <dependency id="cordova-plugin-genie-sdk" url="https://github.com/project-sunbird/cordova-plugin-genie-sdk.git"/>
-    <dependency id="cordova-plugin-deeplinnks" url="https://github.com/ankur01oct/cordova-plugin-deeplinks.git"/>
+    <dependency id="cordova-plugin-deeplinks" url="https://github.com/ankur01oct/cordova-plugin-deeplinks.git"/>
 
     <framework src="build-extras.gradle" custom="true" type="gradleReference"/>
 
