@@ -28,6 +28,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 import org.ekstep.genieservices.GenieService;
 import org.ekstep.genieservices.async.GenieAsyncService;
@@ -74,7 +75,7 @@ public class SplashScreen extends CordovaPlugin {
 
   private static Dialog splashDialog;
   private ImageView splashImageView;
-  private TextView importStatusTextView;
+  protected TextView importStatusTextView;
   private int orientation;
   private SharedPreferences sharedPreferences;
   public volatile boolean importingInProgress;
@@ -102,7 +103,7 @@ public class SplashScreen extends CordovaPlugin {
     importStatusTextView.setText(msg);
   }
 
-  private String getRelevantMessage(String localeSelected, int type) {
+  protected String getRelevantMessage(String localeSelected, int type) {
     String message = null;
     switch (type) {
       case IMPORT_SUCCESS:
@@ -244,7 +245,8 @@ public class SplashScreen extends CordovaPlugin {
 
 //    mDeepLinkNavigation = new DeepLinkNavigation(cordova.getActivity());
     DeepLinkImp deepLinkImp = new DeepLinkImp();
-    deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),SplashScreen.this);
+    LOG.e("splash check", "pluginInitialize "+cordova.getActivity().getIntent().getData());
+    deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),cordova.getActivity().getIntent(),SplashScreen.this);
   }
 
   private int getFadeDuration() {
@@ -329,7 +331,7 @@ public class SplashScreen extends CordovaPlugin {
     return null;
   }
 
-  private void hide() {
+  protected void hide() {
 
     // To avoid black screen while content importing
     if (importingInProgress) {
@@ -558,7 +560,8 @@ public class SplashScreen extends CordovaPlugin {
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
     DeepLinkImp deepLinkImp = new DeepLinkImp();
-    deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),SplashScreen.this);
+    LOG.e("splash check", "on New Intent "+cordova.getActivity());
+    deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),intent,SplashScreen.this);
   }
 
   protected void consumeEvents() {
@@ -573,62 +576,6 @@ public class SplashScreen extends CordovaPlugin {
     }
 
     mLastEvent = null;
-  }
-
-
-
-
-
-  protected void importEcarFile(Intent intent) {
-    boolean isImport = ImportExportUtil.initiateImportFile(cordova.getActivity(), new ImportExportUtil.IImport() {
-      @Override
-      public void onImportSuccess() {
-        String message = getRelevantMessage(localeSelected, IMPORT_SUCCESS);
-        importStatusTextView.setText(message);
-        importingInProgress = false;
-
-        Toast.makeText(cordova.getActivity(), message, Toast.LENGTH_SHORT).show();
-        hide();
-      }
-
-      @Override
-      public void onImportFailure(ContentImportStatus status) {
-        String statusText = null;
-        switch (status) {
-          case NOT_COMPATIBLE:
-            statusText = getRelevantMessage(localeSelected, NOT_COMPATIBLE);
-            break;
-          case CONTENT_EXPIRED:
-            statusText = getRelevantMessage(localeSelected, CONTENT_EXPIRED);
-            break;
-          case ALREADY_EXIST:
-            statusText = getRelevantMessage(localeSelected, ALREADY_EXIST);
-            break;
-          default:
-            statusText = getRelevantMessage(localeSelected, IMPORT_ERROR);
-            break;
-        }
-
-        importStatusTextView.setText(statusText);
-        importingInProgress = false;
-        Toast.makeText(cordova.getActivity(), statusText, Toast.LENGTH_SHORT).show();
-        hide();
-      }
-
-      @Override
-      public void onOutDatedEcarFound() {
-        importingInProgress = false;
-        hide();
-      }
-    }, intent, true);
-
-    if (isImport) {
-      displaySplashScreen();
-      importingInProgress = true;
-
-      String message = getRelevantMessage(localeSelected, IMPORT_PROGRESS);
-      importStatusTextView.setText(message);
-    }
   }
 
   protected void launchContentDetails(String url) {

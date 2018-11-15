@@ -2,27 +2,28 @@ package org.sunbird;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.PluginResult;
+import org.apache.cordova.LOG;
 import org.ekstep.genieservices.GenieService;
-import org.ekstep.genieservices.commons.IResponseHandler;
-import org.ekstep.genieservices.commons.bean.Content;
-import org.ekstep.genieservices.commons.bean.ContentDetailsRequest;
-import org.ekstep.genieservices.commons.bean.GenieResponse;
 import org.ekstep.genieservices.commons.bean.enums.ContentImportStatus;
-import org.ekstep.genieservices.commons.utils.GsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.sunbird.deeplinks.DeepLinkNavigation;
-import org.sunbird.locales.Locale;
 import org.sunbird.util.ImportExportUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -35,7 +36,6 @@ public class DeepLinkImp {
   private DeepLinkNavigation mDeepLinkNavigation;
   private JSONObject mLastEvent;
   private ArrayList<CallbackContext> mHandler = new ArrayList<>();
-  public CordovaInterface cordova;
   private static final int IMPORT_SUCCESS = 1;
   private static final int IMPORT_ERROR = 2;
   private static final int IMPORT_PROGRESS = 3;
@@ -44,15 +44,15 @@ public class DeepLinkImp {
   private static final int NOT_COMPATIBLE = 6;
   private static final int CONTENT_EXPIRED = 7;
   private static final int ALREADY_EXIST = 8;
-  private TextView importStatusTextView;
+
 
 
 
   SplashScreen splashScr;
-  public void handleIntentForDeeplinking(Activity activity, SplashScreen splashScreen) {
+  public void handleIntentForDeeplinking(Activity activity, Intent intent, SplashScreen splashScreen) {
     // get the locale set by user from the mobile
+    LOG.e("DeepLinkImp ",activity.toString()+" "+intent.getData());
     splashScr=splashScreen;
-    Intent intent = activity.getIntent();
     localeSelected = GenieService.getService().getKeyStore().getString("sunbirdselected_language_code", "en");
     deepLinkIntent = intent;
     mDeepLinkNavigation = new DeepLinkNavigation(activity);
@@ -122,14 +122,14 @@ public class DeepLinkImp {
         Uri uri = intent.getData();
 
         if (uri == null) {
-          splashScreen.importEcarFile(intent);
+          importEcarFile(intent);
         }
-        else if ((cordova.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
-          splashScreen.importEcarFile(intent);
+        else if ((splashScr.cordova.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
+          importEcarFile(intent);
         } else {
           splashScreen.importingInProgress=true;
           splashScreen.displaySplashScreen();
-          cordova.requestPermission(splashScreen, 100, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+          splashScr.cordova.requestPermission(splashScreen, 100, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
       }
 
@@ -143,12 +143,65 @@ public class DeepLinkImp {
   public void onRequestPermissionResult(int requestCode, String[] permissions,
                                         int[] grantResults) throws JSONException {
     if (requestCode == 100) {
-      splashScr.importEcarFile(deepLinkIntent);
+      importEcarFile(deepLinkIntent);
       deepLinkIntent = null;
     }
     else {
-      splashScr.importEcarFile(deepLinkIntent);
+      importEcarFile(deepLinkIntent);
     }
   }
 
+  protected void importEcarFile(Intent intent) {
+    LOG.e("DeepLinkImp","inside import ecar "+intent.getData());
+    boolean isImport = ImportExportUtil.initiateImportFile(splashScr.cordova.getActivity(), new ImportExportUtil.IImport() {
+      @Override
+      public void onImportSuccess() {
+        String message = splashScr.getRelevantMessage(localeSelected, IMPORT_SUCCESS);
+        splashScr.importStatusTextView.setText(message);
+        splashScr.importingInProgress = false;
+
+        Toast.makeText(splashScr.cordova.getActivity(), message, Toast.LENGTH_SHORT).show();
+        splashScr.hide();
+      }
+
+      @Override
+      public void onImportFailure(ContentImportStatus status) {
+        String statusText = null;
+        switch (status) {
+          case NOT_COMPATIBLE:
+            statusText = splashScr.getRelevantMessage(localeSelected, NOT_COMPATIBLE);
+            break;
+          case CONTENT_EXPIRED:
+            statusText = splashScr.getRelevantMessage(localeSelected, CONTENT_EXPIRED);
+            break;
+          case ALREADY_EXIST:
+            statusText = splashScr.getRelevantMessage(localeSelected, ALREADY_EXIST);
+            break;
+          default:
+            statusText = splashScr.getRelevantMessage(localeSelected, IMPORT_ERROR);
+            break;
+        }
+
+        splashScr.importStatusTextView.setText(statusText);
+        splashScr.importingInProgress = false;
+        Toast.makeText(splashScr.cordova.getActivity(), statusText, Toast.LENGTH_SHORT).show();
+        splashScr.hide();
+      }
+
+      @Override
+      public void onOutDatedEcarFound() {
+        splashScr.importingInProgress = false;
+        splashScr.hide();
+      }
+    }, intent, true);
+    LOG.e("DeepLinkImp","inside import ecar "+ isImport);
+    if (isImport) {
+      splashScr.displaySplashScreen();
+      splashScr.importingInProgress = true;
+
+      String message = splashScr.getRelevantMessage(localeSelected, IMPORT_PROGRESS);
+      LOG.e("DeepLinkImp ",message);
+      splashScr.importStatusTextView.setText(message);
+    }
+  }
 }
