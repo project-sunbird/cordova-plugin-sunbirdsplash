@@ -1,6 +1,5 @@
 package org.sunbird;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -37,7 +33,6 @@ import org.ekstep.genieservices.commons.bean.Content;
 import org.ekstep.genieservices.commons.bean.ContentDetailsRequest;
 import org.ekstep.genieservices.commons.bean.GenieResponse;
 import org.ekstep.genieservices.commons.bean.ImportContentProgress;
-import org.ekstep.genieservices.commons.bean.enums.ContentImportStatus;
 import org.ekstep.genieservices.commons.bean.telemetry.Impression;
 import org.ekstep.genieservices.commons.utils.GsonUtil;
 import org.ekstep.genieservices.eventbus.EventBus;
@@ -48,7 +43,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.sunbird.deeplinks.DeepLinkNavigation;
 import org.sunbird.locales.Locale;
-import org.sunbird.util.ImportExportUtil;
 
 import java.util.ArrayList;
 
@@ -84,6 +78,7 @@ public class SplashScreen extends CordovaPlugin {
   private JSONObject mLastEvent;
   private String localeSelected;
   private Intent deepLinkIntent;
+  private DeepLinkImp deepLinkImp=null;
 
   private static int getIdOfResource(CordovaInterface cordova, String name, String resourceType) {
     return cordova.getActivity().getResources().getIdentifier(name, resourceType,
@@ -244,7 +239,8 @@ public class SplashScreen extends CordovaPlugin {
     displaySplashScreen();
 
 //    mDeepLinkNavigation = new DeepLinkNavigation(cordova.getActivity());
-    DeepLinkImp deepLinkImp = new DeepLinkImp();
+       deepLinkImp = new DeepLinkImp();
+
     LOG.e("splash check", "pluginInitialize "+cordova.getActivity().getIntent().getData());
     deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),cordova.getActivity().getIntent(),SplashScreen.this);
   }
@@ -370,7 +366,7 @@ public class SplashScreen extends CordovaPlugin {
           splashDialog = null;
           splashImageView = null;
         }
-
+        deepLinkImp = null;
       }
     });
   }
@@ -559,7 +555,8 @@ public class SplashScreen extends CordovaPlugin {
   @Override
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
-    DeepLinkImp deepLinkImp = new DeepLinkImp();
+    deepLinkImp = new DeepLinkImp();
+
     LOG.e("splash check", "on New Intent "+cordova.getActivity());
     deepLinkImp.handleIntentForDeeplinking(cordova.getActivity(),intent,SplashScreen.this);
   }
@@ -602,4 +599,8 @@ public class SplashScreen extends CordovaPlugin {
     });
   }
 
+  public  void onRequestPermissionResult(int requestCode, String[] permissions,
+                                         int[] grantResults) throws JSONException {
+   deepLinkImp.onRequestPermissionResult(requestCode,permissions,grantResults);
+  }
 }
