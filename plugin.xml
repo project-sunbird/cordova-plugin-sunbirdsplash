@@ -8,7 +8,7 @@
     <license>MIT</license>
     <keywords></keywords>
 
-    <dependency id="cordova-plugin-genie-sdk" url="https://github.com/ankur01oct/cordova-plugin-genie-sdk.git#feature"/>
+    <dependency id="cordova-plugin-genie-sdk" url="https://github.com/project-sunbird/cordova-plugin-genie-sdk.git#release-1.12.0"/>
 
     <framework src="build-extras.gradle" custom="true" type="gradleReference"/>
 
