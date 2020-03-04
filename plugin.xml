@@ -31,18 +31,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/public" android:scheme="https" />	
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/dial" android:scheme="https" />
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/play/content" android:scheme="https" />
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/play/collection" android:scheme="https" />
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/learn/course" android:scheme="https" />
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/explore-course/course" android:scheme="https" />
+                <data android:host="@string/deeplink_base_url" android:pathPrefix="/play/quiz" android:scheme="https" />
+                <!-- These below are for state links -->
                 <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/QR" android:scheme="https" />
-
+                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/QR" android:scheme="http" />
                 <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/resources/play/content" android:scheme="https" />
+                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/resources/play/content" android:scheme="http" />
 
+                <!-- <data android:host="deeplink" android:pathPrefix="/content" android:scheme="@string/custom_scheme_url" /> -->
             </intent-filter>
 
-            <intent-filter>
+            <!-- <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="@string/deeplink_base_url" android:scheme="https" />
-            </intent-filter>
+            </intent-filter> -->
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -203,17 +213,6 @@
                 <data android:pathPattern="/*.*\\..*\\..*\\.epar" />
                 <data android:pathPattern="/*.*\\..*\\..*\\..*\\.epar" />
                 <data android:host="*" />
-            </intent-filter>
-
-
-            <!--Deep link clicked/called from content player-->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:host="c" android:scheme="@string/deeplink_base_url" />
-
             </intent-filter>
 
       </config-file>
