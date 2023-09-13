@@ -51,32 +51,32 @@
                 <data android:host="@string/deeplink_base_url" android:pathPrefix="/profile"/>
                 <data android:host="@string/deeplink_base_url" android:pathPrefix="/guest-profile" />
 
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/public" />	
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/dial" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/get/dial"/>
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/play/content"/>
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/play/collection" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/learn/course"/>
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/explore-course/course" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/explore-course"/>
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/play/quiz" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/explore" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/learn"/>
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/resources" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/search" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/faq"  />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/profile" />
-                <data android:host="@string/deeplink_igot_url" android:pathPrefix="/guest-profile"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/public" />	
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/dial" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/get/dial"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/play/content"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/play/collection" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/learn/course"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/explore-course/course" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/explore-course"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/play/quiz" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/explore" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/learn"/>
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/resources" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/search" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/faq"  />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/profile" />
+                <data android:host="@string/external_deeplink_url2" android:pathPrefix="/guest-profile"/>
 
                 <!--Deep link for ML Usecase-->
                 <data android:host="@string/deeplink_base_url" android:pathPrefix="/manage-learn" />
 
                 <!-- These below are for state links -->
-                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/QR" />
-                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/QR" />
+                <data android:host="@string/external_deeplink_url1" android:pathPrefix="/QR" />
+                <data android:host="@string/external_deeplink_url1" android:pathPrefix="/QR" />
 
-                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/resources/play/content" />
-                <data android:host="@string/deeplink_ncert_url" android:pathPrefix="/resources/play/content"/>
+                <data android:host="@string/external_deeplink_url1" android:pathPrefix="/resources/play/content" />
+                <data android:host="@string/external_deeplink_url1" android:pathPrefix="/resources/play/content"/>
 
                 <!-- <data android:host="deeplink" android:pathPrefix="/content" android:scheme="@string/custom_scheme_url" /> -->
             </intent-filter>
