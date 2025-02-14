@@ -8,8 +8,6 @@
     <license>MIT</license>
     <keywords></keywords>
 
-    <framework src="build-extras.gradle" custom="true" type="gradleReference"/>
-
     <js-module src="www/plugin.js" name="plugin">
         <clobbers target="splashscreen" />
     </js-module>
@@ -262,6 +260,8 @@
             </intent-filter>
 
         </config-file>
+
+        <framework src="build-extras.gradle" custom="true" type="gradleReference" />
         
         <source-file src="src/android/org/sunbird/SplashScreen.java" target-dir="src/org/sunbird/" />
         <source-file src="src/android/org/sunbird/IntentUtil.java" target-dir="src/org/sunbird/" />
